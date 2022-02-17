@@ -1,0 +1,31 @@
+{
+    "name": "fabric-ascode-go",
+    "version": "1.0.0",
+    "description": "Hyperledger Fabric Ascode Application",
+    "main": "server.js",
+    "dependencies": {
+        "angular": "^1.8.2",
+        "body-parser": "file:node_modules/body-parser",
+        "crypto": "^1.0.1",
+        "ejs": "latest",
+        "express": "^4.17.2",
+        "express-fileupload": "^1.2.1",
+        "fabric-ca-client": "^1.4.0",
+        "fabric-client": "^1.4.0",
+        "fabric-network": "~1.4.0",
+        "fs": "0.0.1-security",
+        "grpc": "^1.9.1",
+        "http": "0.0.1-security",
+        "mime": "^2.5.0",
+        "mongoose": "^5.11.5",
+        "mongoose-auto-increment": "^5.0.1"
+    },
+    "license": "Apache-2.0",
+    "keywords": [
+        "Hyperledger",
+        "Fabric",
+        "Ascd",
+        "Ascode",
+        "Application"
+    ]
+}

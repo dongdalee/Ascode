@@ -1,0 +1,83 @@
+{
+    "name": "basic-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Maluser1",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                },
+                "orderer": "300"
+            }
+        }
+    },
+    "channels": {
+        "channelmalware": {
+            "orderers": [
+                "orderer.ascdpub.com"
+            ],
+            "peers": {
+                "peer0.maluser1.ascdpub.com": {}
+            }
+        }
+    },
+    "organizations": {
+        "Maluser1": {
+            "mspid": "Maluser1Org",
+            "peers": [
+                "peer0.maluser1.ascdpub.com"
+            ],
+            "certificateAuthorities": [
+                "ca.maluser1.ascdpub.com"
+            ],
+            "adminPrivateKey": {
+                "path":"../../basic-network/crypto-config/peerOrganizations/maluser1.ascdpub.com/users/Admin@maluser1.ascdpub.com/msp/keystore/065b37963df3b7d04c3ac336cf662da6ad5fb5e0ecc572fee2e27542b010bb3b_sk"
+            },
+            "signedCert":{
+                "path":"../../basic-network/crypto-config/peerOrganizations/maluser1.ascdpub.com/users/Admin@maluser1.ascdpub.com/msp/signcerts/Admin@maluser1.ascdpub.com-cert.pem"
+            }
+        }
+    },
+    "orderers": {
+        "orderer.ascdpub.com": {
+            "url": "grpc://localhost:7050",
+            "grpcOptions":{
+                "ssl-target-name-override":"orderer.ascdpub.com",
+                "grpc-max-send-message-length": -1
+            },
+            "tlsCACerts": {
+                "path": "../../basic-network/crypto-config/ordererOrganizations/ascdpub.com/orderers/orderer.ascdpub.com/msp/tlscacerts/tlsca.ascdpub.com-cert.pem"
+            }
+        }
+    },
+    "peers": {
+        "peer0.maluser1.ascdpub.com": {
+            "url": "grpc://localhost:7051",
+            "tlsCACerts": {
+                "path": "../../basic-network/crypto-config/peerOrganizations/maluser1.ascdpub.com/peers/peer0.maluser1.ascdpub.com/msp/tlscacerts/tlsca.maluser1.ascdpub.com-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.maluser1.ascdpub.com",
+                "hostnameOverride": "peer1.maluser1.ascdpub.com"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.maluser1.ascdpub.com": {
+            "url": "http://localhost:7054",
+            "caName": "ca.maluser1.ascdpub.com",
+            "tlsCACerts": {
+                "path": "../../basic-network/crypto-config/peerOrganizations/maluser1.ascdpub.com/ca/ca.maluser1.ascdpub.com-cert.pem"
+            },
+            "registrar":{
+                "enrollId": "admin",
+                "enrollSecret": "adminpw",
+                "caName": "camaluser1"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

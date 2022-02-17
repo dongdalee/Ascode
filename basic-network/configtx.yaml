@@ -1,0 +1,63 @@
+Organizations:
+
+  - &OrdererOrg
+      Name: OrdererOrg
+      ID: OrdererOrg
+      MSPDir: crypto-config/ordererOrganizations/ascdpub.com/msp
+
+  - &Maluser1Org
+      Name: Maluser1Org
+      ID: Maluser1Org
+      MSPDir: crypto-config/peerOrganizations/maluser1.ascdpub.com/msp
+      AnchorPeers:
+        - Host: peer0.maluser1.ascdpub.com
+          Port: 7051
+
+  - &Maluser2Org
+      Name: Maluser2Org
+      ID: Maluser2Org
+      MSPDir: crypto-config/peerOrganizations/maluser2.ascdpub.com/msp
+      AnchorPeers:
+        - Host: peer0.maluser2.ascdpub.com
+          Port: 7051
+
+Orderer: &OrdererDefaults
+
+  OrdererType: kafka
+  Addresses:
+    - orderer.ascdpub.com:7050
+  BatchTimeout: 0.1s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Kafka:
+    Brokers:
+      - kafka1.ascdpub.com:9092
+      - kafka2.ascdpub.com:9092
+      - kafka3.ascdpub.com:9092
+      - kafka4.ascdpub.com:9092 
+  Organizations:
+
+Application: &ApplicationDefaults
+  Organizations:
+
+Profiles:
+
+  OrdererGenesis:
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+    Consortiums:
+      SampleConsortium:
+        Organizations:
+          - *Maluser1Org
+          - *Maluser2Org
+  Channel1:
+    Consortium: SampleConsortium
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Maluser1Org
+        - *Maluser2Org
