@@ -140,4 +140,13 @@ module.exports = function(app){
             res.json(codes);
         })
     })
+
+    // 서버 background에서 동작, app.js를 통해 받은 요청을 처리하고 결과를 다시 res를 통해 반환한다. 3
+    app.get('/api/uploadFile', function(req, res){
+        console.log("controller.js called !")
+        console.log(req.query.file)
+        res_data = req.query.file + "씨발!"
+        res.json(res_data)
+    })
+
 }

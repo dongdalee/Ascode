@@ -34,8 +34,8 @@
       input[id="menuicon"]:checked ~ header .menubtn span:nth-child(2) {left:50%;transform:translate(-50%,-50%) scale(2);opacity:0;}
       input[id="menuicon"]:checked ~ header .menubtn span:nth-child(3) {bottom:50%;left:50%;transform:translate(-50%,50%) rotate(-135deg);}
       input[id="menuicon"]:checked ~ .container .sidebar {left:0;}
-      .menubtn {background:url('./img/btn_bg.png') 0 0 no-repeat;}
-      input[id="menuicon"]:checked ~ header .menubtn {background:url('./img/btn_bg.png') -50px 0 no-repeat;}
+      /*.menubtn {background:url('./img/btn_bg.png') 0 0 no-repeat;}
+      input[id="menuicon"]:checked ~ header .menubtn {background:url('./img/btn_bg.png') -50px 0 no-repeat;}*/
 
       #sidebar_menu {
         background-color: #A4A4A4;
@@ -106,6 +106,10 @@
             </div>
             <div id="sidebar_menu" ng-click="showAdd()"  sytle="position:static; top:500px;">
               Add Code
+            </div>
+            <div id="sidebar_menu" ng-click="convertIpfs()"  sytle="position:static; top:500px;">
+              IPFS
+            <!--<div id="sidebar_menu" sytle="position:static; top:500px;">IPFS</div>-->
             </div>
           </div>
         </div>
@@ -213,6 +217,15 @@
         WalletID: <input class="form-control" type="text" placeholder="Ex: 1Q2W3E4R" ng-model="music.walletid">
         <input id="setMusic" type="submit" value="Create" class="btn btn-primary" ng-click="setMusic()"> 
       </div>
+    
+  <div class="form-group" id="create_hash">
+    <h1>File to convert IPFS</h1>
+    <iframe src="upload/" width="700"></iframe>
+    <hr>
+    <h1>IPFS Hash to File</h1>
+    <iframe src="download/" width="700"></iframe>
+  </div>
+
   </body>
   <script type="text/javascript" src="app.js"> </script>
 </html>

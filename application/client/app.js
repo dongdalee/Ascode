@@ -1,5 +1,6 @@
 'use strict';
 var app = angular.module('application', ['ngRoute']);
+
 app.controller('AppCtrl', function($scope, appFactory){
         $("#success_getwallet").hide();
         $("#success_getwallet1").hide();
@@ -10,6 +11,7 @@ app.controller('AppCtrl', function($scope, appFactory){
         $("#success_getcomment").hide();
         $("#success_getdetail").hide();
         $("#allComments").hide();
+        $("#create_hash").hide();
 
         $scope.showSearch = function(){
                 $("#success_getwallet1").hide();
@@ -19,6 +21,7 @@ app.controller('AppCtrl', function($scope, appFactory){
                 $("#success_getdetail").hide();
                 $("#success_getcomment").hide();
                 $("#success_getallcode").hide();
+                $("#create_hash").hide();
 
         }
         $scope.showWallet = function(){
@@ -29,6 +32,7 @@ app.controller('AppCtrl', function($scope, appFactory){
                 $("#success_getcomment").hide();
                 $("#success_getdetail").hide();
                 $("#allComments").hide();
+                $("#create_hash").hide();
                        
         }
         $scope.showAdd = function(){
@@ -39,7 +43,21 @@ app.controller('AppCtrl', function($scope, appFactory){
                 $("#success_getcomment").hide();
                 $("#success_getdetail").hide();
                 $("#allComments").hide();
+                $("#create_hash").hide();
+        }       
+
+        //================================================================
+        $scope.convertIpfs = function(){
+                $("#create_hash").show();
+                $("#success_create").hide();
+                $("#success_getallcode").hide()
+                $("#success_searchcode").hide();
+                $("#success_getwallet1").hide();
+                $("#success_getcomment").hide();
+                $("#success_getdetail").hide();
+                $("#allComments").hide();
         }
+        //================================================================
         $scope.getWallet = function(){
                 appFactory.getWallet($scope.walletid, function(data){
                         $scope.search_wallet = data;
@@ -128,6 +146,17 @@ app.controller('AppCtrl', function($scope, appFactory){
                         $("#allComments").show();
                 });
         }
+        //=================================================================== 2
+        //1 html에서 사용자가 submit 버튼을 눌렀을때 호출되어 서버단으로 요청으 보낸다.
+        $scope.uploadFile = function(){
+                //요청대기 4
+                appFactory.uploadFile($scope.file, function(data){
+                            //$scope.create_msg = data;
+                            console.log("msg: "+data) //data를 통해 결과값을 받고 출력 4
+                });
+                console.log("upload file") // 2
+        }    
+        //===================================================================
 });
  app.factory('appFactory', function($http){
         var factory = {};
@@ -179,5 +208,14 @@ app.controller('AppCtrl', function($scope, appFactory){
                         callback(output)
                 });
         }
+        //=================================================================== 1
+        factory.uploadFile = function(data, callback){
+                console.log("uploadFile: "+data)
+
+                $http.get('/api/upload').success(function(output){
+                            callback(output)
+                });
+        }
+        //===================================================================
         return factory;
 });
