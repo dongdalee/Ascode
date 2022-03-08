@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  <body>
+    <%- include('../partials/nav') %>
+
+    <div class="container mb-3">
+
+      <h2 class="mb-3">Search IPFS Hash Information</h2>
+
+      <div class="form-group jumbotron">
+        <!--<label for="hash">Input Hash</label>-->
+        <form action="/ipfs/search_code" method="post">
+          <label for="hash">Input Malicious Code Alias, Hash or Uploader</label>
+          <br>
+          <input type="text" name="search_keyword" id="search_keyword">
+          <br>
+          <br>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form> 
+          <br>
+          <% for(var i = 0; i < ipfs_data.length; i++){ %>
+            <b>Malicious Code Alias:</b> <%= ipfs_data[i].alias %> 
+            <br>
+            <b>Uploader ID:</b> <%= ipfs_data[i].uploader %>
+            <br>
+            <b>IPFS Hash:</b> <%= ipfs_data[i].hash %>
+            <hr>
+          <% } %>
+
+      </div>
+
+    </div>
+  </body>
+</html>

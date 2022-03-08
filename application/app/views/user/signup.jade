@@ -1,0 +1,15 @@
+doctype html 
+html 
+    head 
+        meta(charset='utf-8')
+        title()=pageTitle
+    body
+        h3 Signup Page 
+        article 
+            form(action='/create' method='post')
+                p
+                    input(type='email' name='user_email')="ID"
+                p
+                    input(type='password' name='user_password')="PW"
+                p
+                    input(type='submit')

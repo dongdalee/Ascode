@@ -1,0 +1,13 @@
+doctype html 
+html 
+    head 
+        meta(charset='utf-8')
+        title()=pageTitle
+    body
+        h3 File Upload
+        article
+            form(action='/upload_ipfs' method='post')
+                p
+                    input(type='file' name='user_file')
+                p
+                    input(type='submit')

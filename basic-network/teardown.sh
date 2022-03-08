@@ -8,7 +8,7 @@ docker-compose -f docker-compose-ca.yaml kill && docker-compose -f docker-compos
 docker-compose -f kill && docker-compose down --volumes --remove-orphans
 
 # remove sdk wallet
-rm -rf $GOPATH/src/Ascode/application/wallet/
+rm -rf $GOPATH/src/Ascode/application/config/wallet/
 
 # Your system is now clean
 docker stop $(docker ps -a -q)

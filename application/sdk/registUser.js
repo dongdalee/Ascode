@@ -3,12 +3,13 @@
 const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network');
 const path = require('path');
 
-const ccpPath = path.resolve(__dirname, '..', 'connection.json');
+const ccpPath = path.resolve(__dirname, '../config/', 'connection_wallet.json');
 
 async function main() {
     try {
 
-        const walletPath = path.join(process.cwd(), '..', 'wallet');
+        //const walletPath = path.join(process.cwd(), '..', 'wallet');
+        const walletPath = path.join(__dirname, '../config/', 'wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 

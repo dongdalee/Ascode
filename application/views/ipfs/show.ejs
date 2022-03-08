@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  <body>
+    <%- include('../partials/nav') %>
+
+    <div class="container mb-3">
+
+      <h2 class="mb-3">IPFS</h2>
+
+      <div class="container mb-3 rounded jumbotron">
+        <h5 class="mb-3">File to IPFS Hash</h5>
+        <div class="form-group">
+          <!-- upload user file -->
+          <form action="/ipfs/upload_file" method="post" enctype="multipart/form-data">
+            Maliciou Code Alias: 
+            <br>
+            <input type="text" name="file_alias" id="file_alias">
+            <br><br>
+            <input type="file" name="user_file" class="form-control-file" id="user_file">
+            <br>
+            <span class="">Hash: <%=req_ipfs_hash %></span>
+            <br><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="container mb-3 rounded bg-light">
+        <h5 class="mb-3">IPFS Hash to File</h5>
+        <div class="form-group">
+          <form action="/ipfs/download" method="post">
+            Input Hash: 
+            <br>
+            <input type="text" name="hash" id="hash">
+            <br><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <br>
+          </form> 
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
