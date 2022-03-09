@@ -116,6 +116,11 @@ router.post('/search_code', async (req, res) => {
     var ipfs_data_array = []
 
     var keyword = req.body.search_keyword
+
+    if (typeof keyword == "undefined"){
+        keyword = "nodata"
+    }
+
     var args = [keyword]
 
     result = await sdk.send(false, 'getCode', args)
@@ -138,6 +143,17 @@ router.post('/search_code', async (req, res) => {
 
         res.render('ipfs/searchIPFS', {ipfs_data:ipfs_data_array});
     }
+})
+
+router.post('/add_token', async(req, res) => {
+    var user = req.body.user;
+    var token = req.body.token;
+
+    args = [user, token]
+
+    result = await sdk.send(true, 'setToken', args)
+    console.log(result) 
+    res.redirect('/')
 })
 
 module.exports = router;

@@ -24,7 +24,11 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) pb.Response 
 		return s.setCode(APIstub, args)
 	} else if function == "getCode" {
 		return s.getCode(APIstub, args)
+	} else if function == "setToken" {
+		return s.setToken(APIstub, args)
 	}
+
+
 	fmt.Println("Please check your function : " + function)
 	return shim.Error("Unknown function")
 }
@@ -178,36 +182,27 @@ func (s *SmartContract) getCode(stub shim.ChaincodeStubInterface, args []string)
 }
 
 //get All Code
-/*
-func (s *SmartContract)  getCodebyID(APIstub shim.ChaincodeStubInterface, args []string) pb.Response{
 
-	if len(args) != 1 {
+func (s *SmartContract) setToken(APIstub shim.ChaincodeStubInterface, args []string) pb.Response{
+
+	if len(args) != 2 {
 		return shim.Error("Incorrect number of arguments.")
 	}
 
-	var buffer bytes.Buffer
+	var result bool = false
 
-	buffer.WriteString("[")
-	for _, code := range codes {
-		if code.uploader_ID == args[0] {
-			buffer.WriteString("{")
-			buffer.WriteString("\"alias\":")
-			buffer.WriteString("\"")
-			buffer.WriteString(code.alias)
-			buffer.WriteString("\"")
-			buffer.WriteString(",\"uploader\":")
-			buffer.WriteString("\"")
-			buffer.WriteString(code.uploader_ID)
-			buffer.WriteString("\"")
-			buffer.WriteString(",\"hash\":")
-			buffer.WriteString("\"")
-			buffer.WriteString(code.hash)
-			buffer.WriteString("\"")
-			buffer.WriteString("}")
+	token, _ := strconv.Atoi(args[1])
+
+	for index, wallet := range wallets {
+		if wallet.ID == args[0] {
+			wallets[index].coin += token
+			result = true
 		}
 	}
-	buffer.WriteString("]")
 
-	return shim.Success(buffer.Bytes())
+	if result == false {
+		return shim.Error("wallets does not exists")
+	}
+	
+	return shim.Success(nil)
 }
-*/
