@@ -8,6 +8,11 @@ var Comment = require('../models/Comment');
 var File = require('../models/File');
 var util = require('../util');
 
+var fs = require("fs");
+var ipfsAPI = require('ipfs-api');
+var sdk = require('../sdk/sdk')
+const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
+
 // Index
 router.get('/', async function(req, res){
   var page = Math.max(1, parseInt(req.query.page)); // query string으로 전달 받은 page, limit를 req.query로 받는다.
@@ -57,7 +62,7 @@ router.get('/', async function(req, res){
             username: 1,
           },
           views: 1,
-          numId: 1,
+          assessment: 1,
           attachment: { $cond: [{$and: ['$attachment', {$not: '$attachment.isDeleted'}]}, true, false] },
           createdAt: 1,
           commentCount: { $size: '$comments'}
@@ -79,36 +84,65 @@ router.get('/', async function(req, res){
 router.get('/new', util.isLoggedin, function(req, res){
   var post = req.flash('post')[0] || {};
   var errors = req.flash('errors')[0] || {};
-  res.render('posts/new', { post:post, errors:errors });
+  res.render('posts/new', { post:post, errors:errors, });
 });
 
 // create
 router.post('/', util.isLoggedin, upload.single('attachment'), async function(req, res){
   var attachment;
+
   try{
     attachment = req.file?await File.createNewInstance(req.file, req.user._id):undefined;
   }
   catch(err){
     return res.json(err);
   }
+
   req.body.attachment = attachment;
   req.body.author = req.user._id;
-  //console.log(req.user.username)
+  
   Post.create(req.body, function(err, post){
     if(err){
       req.flash('post', req.body);
       req.flash('errors', util.parseError(err));
       return res.redirect('/posts/new'+res.locals.getPostQueryString());
     }
-    /*
-    if(attachment){
-      attachment.postId = post._id;
-      attachment.save();
-    }
-    */
+
     res.redirect('/posts'+res.locals.getPostQueryString(false, { page:1, searchText:'' }));
   });
 });
+
+//create IPFS Hash
+router.post('/upload_file', util.isLoggedin, upload.single('attachment', async function(req, res){
+
+  try{
+      fs.readFileSync('./uploadedFiles/'+req.file.filename, 'utf8')
+  }catch(error){
+      console.log(error)
+  }
+
+  var user_file = fs.readFileSync('./uploadedFiles/'+req.file.filename, 'utf8')
+  var file_buffer = Buffer.from(user_file); //new Buffer -> Buffer.from
+
+  //upload file to ipfs
+  ipfs.files.add(file_buffer, (err,file)=>{
+      if(err) {
+          console.log(err);
+      }  
+      
+      var alias = req.body.file_alias
+      var uploader_ID = req.user.username.toString()
+      var ipfs_hash = file[0].hash.toString()
+      var args = [alias, uploader_ID, ipfs_hash]
+
+      sdk.send(true, 'setCode', args)
+      
+      console.log(ipfs_hash)
+
+      return res.redirect('/posts/new'+res.locals.getPostQueryString());
+  })
+}))
+
 
 // show
 router.get('/:id', function(req, res){

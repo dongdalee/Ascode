@@ -16,9 +16,10 @@ router.get('/', util.isLoggedin, function(req, res){
 });
 
 router.post('/upload_file', upload.single('user_file'), async function(req, res){
-    //console.log(req.file)
+    console.log('make ipfs called!')
     console.log(req.user.username)
 
+   
     try{
         //var user_file = fs.readFileSync('./userFiles/'+req.file.filename, 'utf8')
         fs.readFileSync('./userFiles/'+req.file.filename, 'utf8')
@@ -40,13 +41,19 @@ router.post('/upload_file', upload.single('user_file'), async function(req, res)
         
         var alias = req.body.file_alias
         var uploader_ID = req.user.username.toString()
-        var req_ipfs_hash = file[0].hash.toString()
-        var args = [alias, uploader_ID, req_ipfs_hash]
+        var ipfs_hash = file[0].hash.toString()
+        var args = [alias, uploader_ID, ipfs_hash]
 
         sdk.send(true, 'setCode', args)
 
-        res.render('ipfs/show', {req_ipfs_hash:req_ipfs_hash})
-        //res.render('ipfs/show', {req_ipfs_hash:req_ipfs_hash, code_alias:"", uploader_ID:"", res_ipfs_hash:""});
+        //res.redirect('/posts'+res.locals.getPostQueryString(false, { page:1, searchText:'' }));
+        var post = req.flash('post')[0] || {};
+        var errors = req.flash('errors')[0] || {};
+
+        console.log(post)
+        console.log(ipfs_hash)
+
+        res.send(ipfs_hash)
     })
 });
 
@@ -154,6 +161,11 @@ router.post('/add_token', async(req, res) => {
     result = await sdk.send(true, 'setToken', args)
     console.log(result) 
     res.redirect('/')
+})
+
+
+router.get('/test', (req, res)=>{
+    res.render('test/index')
 })
 
 module.exports = router;

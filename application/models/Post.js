@@ -3,12 +3,12 @@ var Counter = require('./Counter');
 
 // schema
 var postSchema = mongoose.Schema({
-  title:{type:String, required:[true,'Title is required!']},
-
-  hash:{type:String}, //IPFS hash
-  assessment:{type:String}, // Risk Assessment
-  //hash:{type:String, required:[true,'hash is required!']}, //IPFS hash
-  //assessment:{type:String, required:[true,'assessment is required!']}, // Risk Assessment
+  title:{type:String, required:[true,'Title is required!']}, //Title
+  categories:{type:String, required:[true,'Categories is required!']}, //Categories
+  submission:{type:String, required:[true,'First Submission is required!']}, //First Submission
+  url:{type:String, required:[true,'Final Url is required!']}, //Final Url
+  hash:{type:String, required:[true,'hash is required!']}, //IPFS hash
+  assessment:{type:String, required:[true,'assessment is required!']}, // Risk Assessment
 
   body:{type:String, required:[true,'Body is required!']},
 

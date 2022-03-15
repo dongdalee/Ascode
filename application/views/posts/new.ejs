@@ -3,77 +3,125 @@
   <head>
     <%- include('../partials/head') %>
   </head>
+
   <body>
-    <%- include('../partials/nav') %>
+    <header id="header" class="fixed-top header-inner-pages">
+      <%- include('../partials/nav') %>
+    </header>
 
-    <div class="container mb-3">
-      <!-- bootstrap:https://getbootstrap.com/docs/4.4/components/breadcrumb/ -->
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb p-1 pl-2 pr-2">
-          <li class="breadcrumb-item"><a href="/">Home</a></li>
-          <li class="breadcrumb-item"><a href="/posts">Board</a></li>
-          <li class="breadcrumb-item active" aria-current="page">New Post</li>
-        </ol>
-      </nav>
-
-      <form action="/posts<%= getPostQueryString() %>" enctype="multipart/form-data" method="post">
-
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" id="title" name="title" value="<%= post.title %>" class="form-control <%= (errors.title)?'is-invalid':'' %>">
-          <% if(errors.title){ %>
-            <span class="invalid-feedback"><%= errors.title.message %></span>
-          <% } %>
-        </div>
-
-        <!-- IPFS hash -->
-        <div class="form-group">
-          <label for="hash">IPFS Hash</label>
-          <input type="text" id="hash" name="hash" value="<%= post.hash %>" class="form-control <%= (errors.hash)?'is-invalid':'' %>">
-          <% if(errors.hash){ %>
-            <span class="invalid-feedback"><%= errors.hash.message %></span>
-          <% } %>
-        </div>
-
-        <!-- Risk assessment -->
-        <div class="form-group">
-          <label for="assessment">Risk Assessment</label>
-          <br>
-          <select id = "assessment" name="assessment">
-            <option value="none">=== SELECT ===</option>
-            <option value="Very Dangerous">Very Dangerous</option>
-            <option value="Dangerous">Dangerous</option>
-            <option value="Normal">Normal</option>
-            <option value="Safe">Safe</option>
-          </select>
-        </div>
-
-        <!--<div class="form-group">
-          <label for="attachment">Attachment</label>
-          <input type="file" name="attachment" class="form-control-file" id="attachment">
-        </div>-->
-
-        <div class="form-group">
-          <label for="body">Body</label>
-          <textarea id="body" name="body" rows="5" class="form-control <%= (errors.body)?'is-invalid':'' %>"><%= post.body %></textarea>
-          <% if(errors.body){ %>
-            <span class="invalid-feedback"><%= errors.body.message %></span>
-          <% } %>
-        </div>
-
-        <% if(errors.unhandled){ %>
-          <div class="invalid-feedback d-block">
-            <%= errors.unhandled %>
+    <main id="main">
+      <!-- ======= Breadcrumbs ======= -->
+      <section class="breadcrumbs">
+        <div class="container">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mb-3">Regist New Malware</h3>
           </div>
-        <% } %>
+        </div>
+      </section><!-- End Breadcrumbs -->
 
-        <div>
-          <a class="btn btn-primary" href="/posts<%= getPostQueryString() %>">Back</a>
-          <button type="submit" class="btn btn-primary">Submit</button>
+      <section class="inner-page">
+        <div class="container mb-3">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb p-1 pl-2 pr-2">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item"><a href="/posts">Board</a></li>
+              <li class="breadcrumb-item active" aria-current="page">New Post</li>
+            </ol>
+          </nav>
+
+          <!-- Create IPFS Hash -->
+          <form action="/posts<%= getPostQueryString() %>/upload_file" method="post" enctype="multipart/form-data">
+            <input class="col-md-6"type="text" name="file_alias" id="file_alias">
+            <input type="file" name="attachment" class="form-control-file" id="attachment">
+            <button type="submit" class="btn btn-primary">Create IPFS Hash</button>
+          </form>
+          
+          <form action="/posts<%= getPostQueryString() %>" enctype="multipart/form-data" method="post">
+            <!-- Title -->
+            <div class="form-group">
+              <label for="title"><b>Title</b></label>
+              <input type="text" id="title" name="title" value="<%= post.title %>" class="form-control <%= (errors.title)?'is-invalid':'' %>">
+              <% if(errors.title){ %>
+                <span class="invalid-feedback"><%= errors.title.message %></span>
+              <% } %>
+            </div>
+            <br>
+            
+            <!-- Categories -->
+            <div class="form-group">
+              <label for="categories"><b>Categories</b></label>
+              <input type="text" id="categories" name="categories" value="<%= post.categories %>" class="form-control <%= (errors.categories)?'is-invalid':'' %>">
+              <% if(errors.categories){ %>
+                <span class="invalid-feedback"><%= errors.categories.message %></span>
+              <% } %>
+            </div>
+            <br>
+
+             <!-- First Submission -->
+             <div class="form-group">
+              <label for="submission"><b>First Submission</b></label>
+              <input type="date" id="submission" name="submission" value="<%= post.submission %>" class="form-control <%= (errors.submission)?'is-invalid':'' %>">
+            </div>
+            <br>
+
+            <!-- Final URL -->
+            <div class="form-group">
+              <label for="url"><b>Final URL</b></label>
+              <input type="text" id="url" name="url" value="<%= post.url %>" class="form-control <%= (errors.url)?'is-invalid':'' %>">
+              <% if(errors.url){ %>
+                <span class="invalid-feedback"><%= errors.url.message %></span>
+              <% } %>
+            </div>
+            <br>
+    
+            <!-- IPFS hash -->
+            <div class="form-group">
+              <label for="hash"><b>IPFS Hash</b></label>
+              <input type="text" id="hash" name="hash" value="<%= post.hash %>" class="form-control <%= (errors.hash)?'is-invalid':'' %>">
+              <% if(errors.hash){ %>
+                <span class="invalid-feedback"><%= errors.hash.message %></span>
+              <% } %>
+            </div>
+            
+            <!-- Risk assessment -->
+            <div class="form-group">
+              <label for="assessment"><b>Risk Assessment</b></label>
+              <br>
+              <select id = "assessment" name="assessment">
+                <option value="none">=== SELECT ===</option>
+                <option value="Dangerous">Dangerous</option>
+                <option value="Warning">Warning</option>
+                <option value="Normal">Normal</option>
+                <option value="Safe">Safe</option>
+              </select>
+            </div>
+            <br>
+             
+            <!-- Body -->
+            <div class="form-group">
+              <label for="body"><b>Body</b></label>
+              <textarea id="body" name="body" rows="5" class="form-control <%= (errors.body)?'is-invalid':'' %>"><%= post.body %></textarea>
+              <% if(errors.body){ %>
+                <span class="invalid-feedback"><%= errors.body.message %></span>
+              <% } %>
+            </div>
+            <% if(errors.unhandled){ %>
+              <div class="invalid-feedback d-block">
+                <%= errors.unhandled %>
+              </div>
+            <% } %>
+    
+            <div>
+              <a class="btn btn-primary" href="/posts<%= getPostQueryString() %>">Back</a>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+
         </div>
 
-      </form>
+      </section>
+    </main>
 
-    </div>
+    <%- include('../partials/footer') %>
   </body>
 </html>

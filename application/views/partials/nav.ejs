@@ -1,28 +1,33 @@
-<!-- parent navbar setup -->
-<nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
-  <div class="container">
-    <div class="navbar-brand">Ascode</div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-        <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
-        <li class="nav-item"><a href="/posts" class="nav-link">Board</a></li>
-        <li class="nav-item"><a href="/ipfs" class="nav-link">IPFS</a></li>
-        <li class="nav-item"><a href="/ipfs/search_show" class="nav-link">Search IPFS</a></li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <!-- 로그인 했을경우 네비바 상태 변경 -->
-        <% if(isAuthenticated){ %>
-          <li class="nav-item"><a href="/users/<%= currentUser.username %>" class="nav-link">My Account</a></li>
-          <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
-        <% } else { %>
-          <li class="nav-item"><a href="/users/new" class="nav-link">Sign Up</a></li>
-          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
-        <% } %>
-      </ul>
-    </div>
-  </div>
-</nav>
+<!-- ======= Header ======= -->
+
+<div class="container d-flex align-items-center justify-content-between">
+  <h1 class="logo"><a href="/">BlueSystems</a></h1>
+
+  <nav id="navbar" class="navbar">
+    <ul>
+      <li><a class="nav-link scrollto" href="/">Home</a></li>
+      <li><a class="nav-link scrollto" href="/#about">About</a></li>
+      <li><a class="nav-link scrollto" href="#team">Team</a></li>
+      <li><a class="nav-link scrollto" href="/#contact">Contact</a></li>
+      <li class="dropdown"><a href="#"><span>Service</span> <i class="bi bi-chevron-down"></i></a>
+        <ul>
+          <li><a href="/posts">Malware List</a></li>
+          <li><a href="#">Drop Down 2</a></li>
+          <li><a href="#">Drop Down 3</a></li>
+          <li><a href="#">Drop Down 4</a></li>
+        </ul>
+      </li>
+      <!-- Check User Login -->
+      <% if(isAuthenticated){ %>
+        <li><a href="/logout">Logout</a></li>
+        <li><a class="getstarted scrollto" href="/users/<%= currentUser.username %>">My Account</a></li>
+      <% } else { %>
+        <li><a href="/users/new">Sign Up</a></li>
+        <li><a class="getstarted scrollto" href="/login">Login</a></li>
+      <% } %>
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+  </nav><!-- .navbar -->
+</div>
+
+
