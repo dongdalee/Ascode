@@ -89,6 +89,36 @@ router.get('/new', util.isLoggedin, function(req, res){
 
 // create
 router.post('/', util.isLoggedin, upload.single('attachment'), async function(req, res){
+
+  if(req.file){
+    try{
+      fs.readFileSync('./uploadedFiles/'+req.file.filename, 'utf8')
+    }catch(err){
+      return res.json(err);
+    }
+    var user_file = fs.readFileSync('./uploadedFiles/'+req.file.filename, 'utf8')
+    var file_buffer = Buffer.from(user_file); //new Buffer -> Buffer.from
+    var ipfs_hash
+
+
+    //upload file to ipfs
+    ipfs.files.add(file_buffer, (err,file)=>{
+      if(err) {
+          console.log(err);
+      }  
+      
+      var alias = req.body.malwareName
+      var uploader_ID = req.user.username.toString()
+      ipfs_hash = file[0].hash.toString()
+      var args = [alias, uploader_ID, ipfs_hash]
+
+      console.log(req.body)
+      //req.body.hash = ipfs_hash
+
+      sdk.send(true, 'setCode', args)
+    })
+  }
+  
   var attachment;
 
   try{
@@ -100,7 +130,8 @@ router.post('/', util.isLoggedin, upload.single('attachment'), async function(re
 
   req.body.attachment = attachment;
   req.body.author = req.user._id;
-  
+  req.body.hash = ipfs_hash;
+
   Post.create(req.body, function(err, post){
     if(err){
       req.flash('post', req.body);
@@ -111,38 +142,6 @@ router.post('/', util.isLoggedin, upload.single('attachment'), async function(re
     res.redirect('/posts'+res.locals.getPostQueryString(false, { page:1, searchText:'' }));
   });
 });
-
-//create IPFS Hash
-router.post('/upload_file', util.isLoggedin, upload.single('attachment', async function(req, res){
-
-  try{
-      fs.readFileSync('./uploadedFiles/'+req.file.filename, 'utf8')
-  }catch(error){
-      console.log(error)
-  }
-
-  var user_file = fs.readFileSync('./uploadedFiles/'+req.file.filename, 'utf8')
-  var file_buffer = Buffer.from(user_file); //new Buffer -> Buffer.from
-
-  //upload file to ipfs
-  ipfs.files.add(file_buffer, (err,file)=>{
-      if(err) {
-          console.log(err);
-      }  
-      
-      var alias = req.body.file_alias
-      var uploader_ID = req.user.username.toString()
-      var ipfs_hash = file[0].hash.toString()
-      var args = [alias, uploader_ID, ipfs_hash]
-
-      sdk.send(true, 'setCode', args)
-      
-      console.log(ipfs_hash)
-
-      return res.redirect('/posts/new'+res.locals.getPostQueryString());
-  })
-}))
-
 
 // show
 router.get('/:id', function(req, res){

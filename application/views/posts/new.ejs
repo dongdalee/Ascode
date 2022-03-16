@@ -29,13 +29,6 @@
             </ol>
           </nav>
 
-          <!-- Create IPFS Hash -->
-          <form action="/posts<%= getPostQueryString() %>/upload_file" method="post" enctype="multipart/form-data">
-            <input class="col-md-6"type="text" name="file_alias" id="file_alias">
-            <input type="file" name="attachment" class="form-control-file" id="attachment">
-            <button type="submit" class="btn btn-primary">Create IPFS Hash</button>
-          </form>
-          
           <form action="/posts<%= getPostQueryString() %>" enctype="multipart/form-data" method="post">
             <!-- Title -->
             <div class="form-group">
@@ -76,18 +69,17 @@
     
             <!-- IPFS hash -->
             <div class="form-group">
-              <label for="hash"><b>IPFS Hash</b></label>
-              <input type="text" id="hash" name="hash" value="<%= post.hash %>" class="form-control <%= (errors.hash)?'is-invalid':'' %>">
-              <% if(errors.hash){ %>
-                <span class="invalid-feedback"><%= errors.hash.message %></span>
-              <% } %>
+              <label for="hash"><b>Malware Name</b></label>
+              <input type="text" id="malwareName" name="malwareName" value="<%= post.malwareName %>" class="form-control <%= (errors.malwareName)?'is-invalid':'' %>">
+              <input type="file" name="attachment" class="form-control-file" id="attachment" class="form-control">
+              <input type="hidden" id="hash" name="hash" value="<%= post.hash %>" class="form-control">
             </div>
             
             <!-- Risk assessment -->
             <div class="form-group">
               <label for="assessment"><b>Risk Assessment</b></label>
               <br>
-              <select id = "assessment" name="assessment">
+              <select id = "assessment" name="assessment" class="form-control">
                 <option value="none">=== SELECT ===</option>
                 <option value="Dangerous">Dangerous</option>
                 <option value="Warning">Warning</option>

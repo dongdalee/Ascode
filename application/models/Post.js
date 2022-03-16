@@ -7,7 +7,7 @@ var postSchema = mongoose.Schema({
   categories:{type:String, required:[true,'Categories is required!']}, //Categories
   submission:{type:String, required:[true,'First Submission is required!']}, //First Submission
   url:{type:String, required:[true,'Final Url is required!']}, //Final Url
-  hash:{type:String, required:[true,'hash is required!']}, //IPFS hash
+  hash:{type:String}, //IPFS hash
   assessment:{type:String, required:[true,'assessment is required!']}, // Risk Assessment
 
   body:{type:String, required:[true,'Body is required!']},

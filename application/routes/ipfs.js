@@ -10,12 +10,12 @@ var ipfsAPI = require('ipfs-api');
 var sdk = require('../sdk/sdk')
 
 const ipfs = ipfsAPI('127.0.0.1', '5001', {protocol: 'http'})
-
+/*
 router.get('/', util.isLoggedin, function(req, res){
     res.render('ipfs/show', {req_ipfs_hash:"", code_alias:"", uploader_ID:"", res_ipfs_hash:""});
-});
-
-router.post('/upload_file', upload.single('user_file'), async function(req, res){
+});*/
+/*
+router.post('/temp', upload.single('user_file'), async function(req, res){
     console.log('make ipfs called!')
     console.log(req.user.username)
 
@@ -56,6 +56,7 @@ router.post('/upload_file', upload.single('user_file'), async function(req, res)
         res.send(ipfs_hash)
     })
 });
+*/
 
 /*
 router.post("/download", async function(req, res){
@@ -75,7 +76,7 @@ router.post("/download", async function(req, res){
     res.render('ipfs/show', {req_ipfs_hash:"", code_alias:"", uploader_ID:"", res_ipfs_hash:""});
 })
 */
-
+/*
 router.post("/download", function(req, res){
     var ipfs_hash = req.body.hash
 
@@ -91,7 +92,7 @@ router.post("/download", function(req, res){
         downloadFile = file.content.toString('utf8')
 
         //download file save
-            fs.writeFileSync("userFiles/"+file_name, downloadFile, 'utf8', (err)=>{
+            fs.writeFileSync("uploadedFiles/"+file_name, downloadFile, 'utf8', (err)=>{
                 if(err) {
                     console.log(err);
                 }       
@@ -102,12 +103,28 @@ router.post("/download", function(req, res){
     }); 
 
 })
+*/
+router.get('/download/:hash', (req, res) => {
+    __dirname="./uploadedFiles"
+    ipfs_hash = req.params.hash
+    fileName = req.params.hash
 
-router.get('/download/:ipfs_hash', (req, res, next) => {
-    __dirname="./userFiles"
-    fileName = req.params.ipfs_hash
-    const file = `${__dirname}/${fileName}`;
-    res.download(file); // Set disposition and send it.
+    ipfs.files.get(ipfs_hash, (err,files)=>{
+        files.forEach((file) =>{
+            file_name = file.path.toString();
+
+            downloadFile = file.content.toString('utf8')
+
+            //download file save
+            fs.writeFileSync("uploadedFiles/"+file_name, downloadFile, 'utf8', (err)=>{
+                if(err) {
+                    console.log(err);
+                }       
+            });
+            const download_file = `${__dirname}/${fileName}`;
+            res.download(download_file);
+        });
+    }); 
 })
 
 router.get('/search_show', (req, res) => {
@@ -131,9 +148,9 @@ router.post('/search_code', async (req, res) => {
     var args = [keyword]
 
     result = await sdk.send(false, 'getCode', args)
+    console.log(result)
 
     if (typeof result == "undefined"){
-
         var no_data = {"alias":[], "uploader":[], "hash":[]}
 
         res.render('ipfs/searchIPFS', {ipfs_data:no_data});
@@ -145,8 +162,6 @@ router.post('/search_code', async (req, res) => {
             ipfs_info = JSON.parse(ipfs_info)
             ipfs_data_array.push(ipfs_info)
         }
-
-        //console.log(ipfs_data_array)
 
         res.render('ipfs/searchIPFS', {ipfs_data:ipfs_data_array});
     }

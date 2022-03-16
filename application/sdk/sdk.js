@@ -23,18 +23,15 @@ async function send(type, func, args) {
         if(type){
             await contract.submitTransaction(func, ...args);
             console.log('Transaction has been submitted');
-            //res.send('success');
-            return
+            //return "200"
         }else{
             const result = await contract.evaluateTransaction(func, ...args);
             console.log(`Transaction has been evaluates`)
-            //console.log('Transaction has been evaluates, result is :' + result.toString());
             return result.toString()
-            //res.send(result.toString());  
         }
     } catch (error){
         console.error(`Failed to submit transaction: ${error}`);
-        //res.send('Failed to submit transaction: ${error}');
+        //return error
     }
 }
 module.exports = {

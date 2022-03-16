@@ -2,6 +2,7 @@
 <html>
   <head>
     <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/css/master.css">
   </head>
   <body>
     <header id="header" class="fixed-top header-inner-pages">
@@ -32,18 +33,18 @@
                 <hr>
                 <div class="post-body p-2" data-search-highlight="url"><strong>Final URL:</strong> <%= post.url %></div>
                 <hr>
-                <div class="post-body p-2" data-search-highlight="hash"><strong>IPFS Hash:</strong> <%= post.hash %></div>
+                <div class="post-body p-2" data-search-highlight="hash"><strong>IPFS Hash:</strong><<%= post.hash %></a> 
+                <% if(post.hash) { %>
+                  <div class="ml-2">
+                    <small>📁<a href="/ipfs/download/<%= post.hash %>"><%= post.hash %></a></small></div>
+                <% } %>
+                </div>
                 <hr>
                 <div class="post-body p-2" data-search-highlight="assessment"><strong>Risk Assessment:</strong> <%= post.assessment %></div>
                 <hr>
               </div>
 
               <div class="col-md-7 col-lg-8 col-xl-9 order-sm-2 order-md-1">
-                <!--<% if(post.attachment) { %>
-                  <div class="ml-2">
-                    <small>📁 Attachment: <a href="/files/<%= post.attachment.serverFileName %>/<%= post.attachment.originalFileName %>"><%= post.attachment.originalFileName %></a> (<%= util.bytesToSize(post.attachment.size) %>)</small>
-                  </div>
-                <% } %>-->
                 <div class="post-body p-2" data-search-highlight="body"><%= post.body %></div>
               </div>
 

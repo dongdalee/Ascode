@@ -3,35 +3,50 @@
   <head>
     <%- include('../partials/head') %>
   </head>
+
   <body>
-    <%- include('../partials/nav') %>
+    <header id="header" class="fixed-top header-inner-pages">
+      <%- include('../partials/nav') %>
+    </header>
 
-    <div class="container mb-3">
+    <main id="main">
+      <!-- ======= Breadcrumbs ======= -->
+      <section class="breadcrumbs">
+        <div class="container">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mb-3">Search IPFS Hash Information</h3>
+          </div>
+        </div>
+      </section><!-- End Breadcrumbs -->
 
-      <h2 class="mb-3">Search IPFS Hash Information</h2>
-
-      <div class="form-group jumbotron">
-        <!--<label for="hash">Input Hash</label>-->
-        <form action="/ipfs/search_code" method="post">
-          <label for="hash">Input Malicious Code Alias, Hash or Uploader</label>
-          <br>
-          <input type="text" name="search_keyword" id="search_keyword">
-          <br>
-          <br>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form> 
-          <br>
-          <% for(var i = 0; i < ipfs_data.length; i++){ %>
-            <b>Malicious Code Alias:</b> <%= ipfs_data[i].alias %> 
-            <br>
-            <b>Uploader ID:</b> <%= ipfs_data[i].uploader %>
-            <br>
-            <b>IPFS Hash:</b> <%= ipfs_data[i].hash %>
-            <hr>
-          <% } %>
-
-      </div>
-
-    </div>
+      <section class="inner-page">
+        <div class="container">
+          <form action="/ipfs/search_code" method="post" class="post-index-tool">
+            <div class="form-group col-md-6 mx-auto">
+              <div class="input-group">
+                <div class="col-sm-1 col-form-label"><i class="fas fa-search" style='font-size:23px;color:gray'></i></div>
+                <input class="col-sm-8 bg-light border-1" placeholder=" KeyWords" minLength="3" type="text" name="search_keyword" id="search_keyword">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+              </div>
+            </div>
+          </form>
+  
+          <div class="form-group">
+              <br>
+              <% for(var i = 0; i < ipfs_data.length; i++){ %>
+                <b>Malicious Code Alias:</b> <%= ipfs_data[i].alias %> 
+                <br>
+                <b>Uploader ID:</b> <%= ipfs_data[i].uploader %>
+                <br>
+                <b>IPFS Hash:</b> <%= ipfs_data[i].hash %>
+                <hr>
+              <% } %>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
   </body>
 </html>

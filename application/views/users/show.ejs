@@ -9,44 +9,36 @@
     </header>
 
     <main id="main">
-      <!-- ======= Breadcrumbs ======= -->
-      <section class="breadcrumbs">
-        <div class="container">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mb-3"><%= user.username %></h3>
-            <!--<ol>
-              <li><a href="/">Home</a></li>
-              <li>Login</li>
-            </ol>-->
-          </div>
-        </div>
-      </section><!-- End Breadcrumbs -->
-
       <section class="inner-page">
+        <div class="container mb-3 d-flex justify-content-between align-items-center">
+          <h3 class="mb-3"><%= user.username %></h3>
+        </div>
+        <hr>
+
         <div class="container mb-3">
           <form class="user-form" action="/users" method="post">
             <fieldset disabled>
               <div class="form-group row">
-                <label for="name" class="col-sm-3 col-form-label">Name</label>
+                <label for="name" class="col-sm-1 col-form-label"><b>Name:</b></label>
                 <div class="col-sm-9">
-                  <input class="form-control" type="text" id="name" name="name" value="<%= user.name %>">
+                  <input class="form-control border-0" type="text" id="name" name="name" value="<%= user.name %>">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <label for="email" class="col-sm-1 col-form-label"><b>Email</b></label>
                 <div class="col-sm-9">
-                  <input class="form-control" type="text" id="email" name="email" value="<%= user.email %>">
+                  <input class="form-control border-0" type="text" id="email" name="email" value="<%= user.email %>">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="coin" class="col-sm-3 col-form-label">Coin</label>
+                <label for="coin" class="col-sm-1 col-form-label"><b>Coin</b></label>
                 <div class="col-sm-9">
-                  <input class="form-control" type="text" id="coin" name="coin" value="<%= coin %>">
+                  <input class="form-control border-0" type="text" id="coin" name="coin" value="<%= coin %>">
                 </div>
               </div>
             </fieldset>
           </form>
-
+          <br>
           <div>
             <% if(isAuthenticated && currentUser.id == user.id){ %>
               <a class="btn btn-primary" href="/users/<%= user.username %>/edit">Edit</a>
@@ -54,6 +46,12 @@
           </div>
 
         </div>
+    </section>
+
+    <section class="breadcrumbs">
+      <div class="container">
+
+      </div>
     </section>
 
     <%- include('../partials/footer') %>
