@@ -40,7 +40,34 @@
                 <% } %>
                 </div>
                 <hr>
-                <div class="post-body p-2" data-search-highlight="assessment"><strong>Risk Assessment:</strong> <%= post.assessment %></div>
+                <div class="post-body p-2" data-search-highlight="assessment"><strong>Author Assessment:</strong> <%= post.assessment %></div>
+                <div class="post-body p-2" data-search-highlight="assessment"><strong>User Assessment:</strong> <%= post.riskScore %></div>
+                <span class="d-inline">&nbsp<d/span>
+                <div class="mx-auto d-inline">
+                  <% if(post.riskScore >= 4){ %>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                  <% } else if(post.riskScore <= 4 & post.riskScore >= 3 ){ %>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                  <% } else if(post.riskScore <= 3 & post.riskScore >= 2){ %>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                  <% } else if(post.riskScore <= 2 & post.riskScore >= 1){ %>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                  <% } else { %>
+                    <i class="fas fa-fire-alt" style='font-size:30px;color:gray'></i>
+                  <% }%>
+                </div>
+             
+
                 <hr>
               </div>
 

@@ -36,40 +36,62 @@
           <form action="/posts/<%= post._id %>?_method=put<%= getPostQueryString(true) %>" enctype="multipart/form-data" method="post">
     
             <div class="form-group">
-              <label for="title">Title</label>
+              <label for="title"><b>Title</b></label>
               <input type="text" id="title" name="title" value="<%= post.title %>" class="form-control <%= (errors.title)?'is-invalid':'' %>">
               <% if(errors.title){ %>
                 <span class="invalid-feedback"><%= errors.title.message %></span>
               <% } %>
             </div>
-    
+            <br>
+            
+            <!-- Categories -->
             <div class="form-group">
-              <label for="hash">Hash</label>
-              <input type="text" id="hash" name="hash" value="<%= post.hash %>" class="form-control <%= (errors.hash)?'is-invalid':'' %>">
-              <% if(errors.hash){ %>
-                <span class="invalid-feedback"><%= errors.hash.message %></span>
+              <label for="categories"><b>Categories</b></label>
+              <input type="text" id="categories" name="categories" value="<%= post.categories %>" class="form-control <%= (errors.categories)?'is-invalid':'' %>">
+              <% if(errors.categories){ %>
+                <span class="invalid-feedback"><%= errors.categories.message %></span>
               <% } %>
             </div>
-    
-            <!--<div class="form-group">
-              <label for="assessment">Risk Assessment</label>
-              <input type="text" id="assessment" name="assessment" value="<%= post.assessment %>" class="form-control <%= (errors.assessment)?'is-invalid':'' %>">
-              <% if(errors.assessment){ %>
-                <span class="invalid-feedback"><%= errors.assessment.message %></span>
-              <% } %>
-            </div>-->
-    
+            <br>
+
+             <!-- First Submission -->
+             <div class="form-group">
+              <label for="submission"><b>First Submission</b></label>
+              <input type="date" id="submission" name="submission" value="<%= post.submission %>" class="form-control <%= (errors.submission)?'is-invalid':'' %>">
+            </div>
+            <br>
+
+            <!-- Final URL -->
             <div class="form-group">
-              <label for="assessment">Risk Assessment</label>
+              <label for="url"><b>Final URL</b></label>
+              <input type="text" id="url" name="url" value="<%= post.url %>" class="form-control <%= (errors.url)?'is-invalid':'' %>">
+              <% if(errors.url){ %>
+                <span class="invalid-feedback"><%= errors.url.message %></span>
+              <% } %>
+            </div>
+            <br>
+    
+            <!-- IPFS hash -->
+            <!--<div class="form-group">
+              <label for="hash"><b>Malware Name</b></label>
+              <input type="text" id="malwareName" name="malwareName" value="<%= post.malwareName %>" class="form-control <%= (errors.malwareName)?'is-invalid':'' %>">
+              <input type="file" name="attachment" class="form-control-file" id="attachment" class="form-control">
+              <input type="hidden" id="hash" name="hash" value="<%= post.hash %>" class="form-control">
+            </div>-->
+            
+            <!-- Risk assessment -->
+            <div class="form-group">
+              <label for="assessment"><b>Risk Assessment</b></label>
               <br>
-              <select name="assessment">
+              <select id = "assessment" name="assessment" class="form-control">
                 <option value="none">=== SELECT ===</option>
-                <option value="Very Dangerous">Very Dangerous</option>
                 <option value="Dangerous">Dangerous</option>
+                <option value="Warning">Warning</option>
                 <option value="Normal">Normal</option>
                 <option value="Safe">Safe</option>
               </select>
             </div>
+            <br>
     
             <!--<div class="form-group">
               <label for="title">Attachment</label>

@@ -119,7 +119,7 @@ var codes []Code//user wallet slice
 //set code
 func (s *SmartContract) setCode(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
-	if len(args) != 3 {
+	if len(args) != 7 {
 		return shim.Error("Incorrect number of arguments.")
 	}
 
@@ -129,13 +129,14 @@ func (s *SmartContract) setCode(stub shim.ChaincodeStubInterface, args []string)
 		}
 	}
 
-	code := Code{alias: args[0], uploader_ID: args[1], hash: args[2]}
+
+	code := Code{alias: args[0], categories: args[1], submission: args[2], url: args[3], risk:args[4], uploader_ID: args[5], hash: args[6]}
 	codes = append(codes, code)
 
 	var result bool = false
 
 	for index, wallet := range wallets {
-		if wallet.ID == args[1] {
+		if wallet.ID == args[5] {
 			wallets[index].coin += 100
 			result = true
 		}
@@ -164,6 +165,22 @@ func (s *SmartContract) getCode(stub shim.ChaincodeStubInterface, args []string)
 			buffer.WriteString("{\"alias\":")
 			buffer.WriteString("\"")
 			buffer.WriteString(code.alias)
+			buffer.WriteString("\"")
+			buffer.WriteString(",\"categories\":")
+			buffer.WriteString("\"")
+			buffer.WriteString(code.categories)
+			buffer.WriteString("\"")
+			buffer.WriteString(",\"submission\":")
+			buffer.WriteString("\"")
+			buffer.WriteString(code.submission)
+			buffer.WriteString("\"")
+			buffer.WriteString(",\"url\":")
+			buffer.WriteString("\"")
+			buffer.WriteString(code.url)
+			buffer.WriteString("\"")
+			buffer.WriteString(",\"risk\":")
+			buffer.WriteString("\"")
+			buffer.WriteString(code.risk)
 			buffer.WriteString("\"")
 			buffer.WriteString(",\"uploader\":")
 			buffer.WriteString("\"")

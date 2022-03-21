@@ -108,9 +108,13 @@ router.post('/', util.isLoggedin, upload.single('attachment'), async function(re
       }  
       
       var alias = req.body.malwareName
+      var categories = req.body.categories
+      var submission = req.body.submission.toString()
+      var url = req.body.url
+      var risk = req.body.assessment.toString()
       var uploader_ID = req.user.username.toString()
       ipfs_hash = file[0].hash.toString()
-      var args = [alias, uploader_ID, ipfs_hash]
+      var args = [alias, categories, submission, url, risk, uploader_ID, ipfs_hash]
 
       console.log(req.body)
       //req.body.hash = ipfs_hash
@@ -158,6 +162,35 @@ router.get('/:id', function(req, res){
       post.views++;
       post.save();
       var commentTrees = util.convertToTrees(comments, '_id','parentComment','childComments');
+
+      var comment_length = 0 //대댓글은 평가 기능이 없기 때문에 comments.length 사용 불가
+      var total_score = 0
+
+      comments.forEach((comment)=>{
+        if (comment.risk == "Dangerous"){
+          var score = 5;
+          comment_length += 1;
+        }else if (comment.risk == "Warning"){
+          var score = 3;
+          comment_length += 1;
+        }else if (comment.risk == "Normal"){
+          var score = 1;
+          comment_length += 1;
+        }else if (comment.risk == "Safe"){
+          var score = 0;
+          comment_length += 1;
+        }else if (comment.risk == "none"){
+          var score = 0;
+        }
+        total_score += score
+      })
+
+      if (total_score > 0){
+        post.riskScore = total_score/comment_length
+      }else{
+        post.riskScore = 0
+      }
+
       res.render('posts/show', { post:post, commentTrees:commentTrees, commentForm:commentForm, commentError:commentError});
     })
     .catch((err) => {

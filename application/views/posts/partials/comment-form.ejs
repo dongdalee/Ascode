@@ -13,6 +13,13 @@
     <% } %>
     <div class="row">
       <div class="col-8">
+        <select id = "risk" name="risk" class="form-control">
+          <option value="none">=== SELECT ===</option>
+          <option value="Dangerous">Dangerous</option>
+          <option value="Warning">Warning</option>
+          <option value="Normal">Normal</option>
+          <option value="Safe">Safe</option>
+        </select>
         <textarea name="text" rows="2" class="form-control <%= (commentError._id == comment._id && commentError.parentComment == parentComment && commentError.errors.text)?'is-invalid':'' %>"><%= (commentForm._id == comment._id)?commentForm.form.text:comment.text %></textarea>
       </div>
       <div class="col-4">
